@@ -126,6 +126,22 @@ const App = () => {
         <h2>Money: {money}</h2>
       </section>
       <section>
+        <h2>
+          Team Strength:{" "}
+          {team.reduce((sum, teamMate) => sum + teamMate.strength, 0)}
+        </h2>
+      </section>
+      <section>
+        <h2>
+          Team Agility:{" "}
+          {team.reduce((sum, teamMate) => sum + teamMate.agility, 0)}
+        </h2>
+      </section>
+
+      <section>
+        <h2>Money: {money}</h2>
+      </section>
+      <section>
         <h2>Team</h2>
         {team.length === 0 ? <p>Pick some team members!</p> : null}
       </section>
