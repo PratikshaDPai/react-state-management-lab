@@ -177,20 +177,16 @@ const App = () => {
           <p>Pick some team members!</p>
         ) : (
           <ul>
-            {zombieFighters
-              .filter((zombieFighter) =>
-                isZombieFighterInTeam(zombieFighter, team)
-              )
-              .map((zombieFighter) => (
-                <ZombieFighter
-                  key={zombieFighter.id}
-                  handleAddFighter={handleAddFighter}
-                  handleRemoveFighter={handleRemoveFighter}
-                  zombieFighter={zombieFighter}
-                  team={team}
-                  money={money}
-                />
-              ))}
+            {team.map((zombieFighter) => (
+              <ZombieFighter
+                key={zombieFighter.id}
+                handleAddFighter={handleAddFighter}
+                handleRemoveFighter={handleRemoveFighter}
+                zombieFighter={zombieFighter}
+                team={team}
+                money={money}
+              />
+            ))}
           </ul>
         )}
       </section>
