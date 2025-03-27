@@ -128,9 +128,10 @@ const App = () => {
         {zombieFighters.map((zombieFighter) => (
           <li key={zombieFighter.id}>
             <img src={zombieFighter.img} />
-            <p className="fighter-name">
-              {zombieFighter.name} ${zombieFighter.price}
-            </p>
+            <p className="fighter-name">{zombieFighter.name}</p>
+            <p>Price: ${zombieFighter.price}</p>
+            <p>Strength: {zombieFighter.strength}</p>
+            <p>Agility: {zombieFighter.agility}</p>
             <TeamButton
               isTeamMember={team.find(
                 (teamMember) => teamMember.id === zombieFighter.id
