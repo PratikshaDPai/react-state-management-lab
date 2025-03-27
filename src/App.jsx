@@ -2,11 +2,20 @@
 
 import { useState } from "react";
 
-function TeamButton({ isTeamMember, handleAddFighter, handleRemoveFighter }) {
+function TeamButton({
+  isTeamMember,
+  handleAddFighter,
+  handleRemoveFighter,
+  isMoneyEnough,
+}) {
   if (isTeamMember) {
     return <button onClick={handleRemoveFighter}>Remove</button>;
   } else {
-    return <button onClick={handleAddFighter}>Add</button>;
+    return (
+      <button onClick={handleAddFighter} disabled={isMoneyEnough}>
+        Add
+      </button>
+    );
   }
 }
 
@@ -102,28 +111,34 @@ const App = () => {
     const newTeam = [...team];
     newTeam.push(fighter);
     setTeam(newTeam);
+    setMoney(money - fighter.price);
   }
 
   function handleRemoveFighter(fighter) {
     setTeam(team.filter((teamMate) => teamMate.id !== fighter.id));
+    setMoney(money + fighter.price);
   }
 
   return (
-    <ul>
-      {zombieFighters.map((zombieFighter) => (
-        <li key={zombieFighter.id}>
-          <img src={zombieFighter.img} />
-          {zombieFighter.name} ${zombieFighter.price}
-          <TeamButton
-            isTeamMember={team.find(
-              (teamMember) => teamMember.id === zombieFighter.id
-            )}
-            handleAddFighter={() => handleAddFighter(zombieFighter)}
-            handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      <p>Money: {money}</p>
+      <ul>
+        {zombieFighters.map((zombieFighter) => (
+          <li key={zombieFighter.id}>
+            <img src={zombieFighter.img} />
+            {zombieFighter.name} ${zombieFighter.price}
+            <TeamButton
+              isTeamMember={team.find(
+                (teamMember) => teamMember.id === zombieFighter.id
+              )}
+              handleAddFighter={() => handleAddFighter(zombieFighter)}
+              handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
+              isMoneyEnough={money - zombieFighter.price < 0}
+            />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
