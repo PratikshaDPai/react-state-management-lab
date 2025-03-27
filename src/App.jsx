@@ -20,6 +20,32 @@ function TeamButton({
   }
 }
 
+function ZombieFighter({
+  zombieFighter,
+  handleAddFighter,
+  handleRemoveFighter,
+  team,
+  money,
+}) {
+  return (
+    <li>
+      <img src={zombieFighter.img} />
+      <p className="fighter-name">{zombieFighter.name}</p>
+      <p>Price: ${zombieFighter.price}</p>
+      <p>Strength: {zombieFighter.strength}</p>
+      <p>Agility: {zombieFighter.agility}</p>
+      <TeamButton
+        isTeamMember={team.find(
+          (teamMember) => teamMember.id === zombieFighter.id
+        )}
+        handleAddFighter={() => handleAddFighter(zombieFighter)}
+        handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
+        isMoneyEnough={money - zombieFighter.price < 0}
+      />
+    </li>
+  );
+}
+
 const App = () => {
   const [team, setTeam] = useState([]);
   const [money, setMoney] = useState(100);
@@ -149,21 +175,14 @@ const App = () => {
         <h2>Fighters</h2>
         <ul>
           {zombieFighters.map((zombieFighter) => (
-            <li key={zombieFighter.id}>
-              <img src={zombieFighter.img} />
-              <p className="fighter-name">{zombieFighter.name}</p>
-              <p>Price: ${zombieFighter.price}</p>
-              <p>Strength: {zombieFighter.strength}</p>
-              <p>Agility: {zombieFighter.agility}</p>
-              <TeamButton
-                isTeamMember={team.find(
-                  (teamMember) => teamMember.id === zombieFighter.id
-                )}
-                handleAddFighter={() => handleAddFighter(zombieFighter)}
-                handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
-                isMoneyEnough={money - zombieFighter.price < 0}
-              />
-            </li>
+            <ZombieFighter
+              key={zombieFighter.id}
+              handleAddFighter={handleRemoveFighter}
+              handleRemoveFighter={handleRemoveFighter}
+              zombieFighter={zombieFighter}
+              team={team}
+              money={money}
+            />
           ))}
         </ul>
       </section>
