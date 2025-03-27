@@ -122,27 +122,35 @@ const App = () => {
 
   return (
     <>
-      {team.length === 0 ? <p>Pick some team members!</p> : null}
-      <p>Money: {money}</p>
-      <ul>
-        {zombieFighters.map((zombieFighter) => (
-          <li key={zombieFighter.id}>
-            <img src={zombieFighter.img} />
-            <p className="fighter-name">{zombieFighter.name}</p>
-            <p>Price: ${zombieFighter.price}</p>
-            <p>Strength: {zombieFighter.strength}</p>
-            <p>Agility: {zombieFighter.agility}</p>
-            <TeamButton
-              isTeamMember={team.find(
-                (teamMember) => teamMember.id === zombieFighter.id
-              )}
-              handleAddFighter={() => handleAddFighter(zombieFighter)}
-              handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
-              isMoneyEnough={money - zombieFighter.price < 0}
-            />
-          </li>
-        ))}
-      </ul>
+      <section>
+        <h2>Money: {money}</h2>
+      </section>
+      <section>
+        <h2>Team</h2>
+        {team.length === 0 ? <p>Pick some team members!</p> : null}
+      </section>
+      <section>
+        <h2>Fighters</h2>
+        <ul>
+          {zombieFighters.map((zombieFighter) => (
+            <li key={zombieFighter.id}>
+              <img src={zombieFighter.img} />
+              <p className="fighter-name">{zombieFighter.name}</p>
+              <p>Price: ${zombieFighter.price}</p>
+              <p>Strength: {zombieFighter.strength}</p>
+              <p>Agility: {zombieFighter.agility}</p>
+              <TeamButton
+                isTeamMember={team.find(
+                  (teamMember) => teamMember.id === zombieFighter.id
+                )}
+                handleAddFighter={() => handleAddFighter(zombieFighter)}
+                handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
+                isMoneyEnough={money - zombieFighter.price < 0}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
     </>
   );
 };
