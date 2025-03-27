@@ -121,6 +121,7 @@ const App = () => {
 
   return (
     <>
+      {team.length === 0 ? <p>Pick some team members!</p> : null}
       <p>Money: {money}</p>
       <ul>
         {zombieFighters.map((zombieFighter) => (
