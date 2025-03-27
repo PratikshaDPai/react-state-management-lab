@@ -35,14 +35,18 @@ function ZombieFighter({
       <p>Strength: {zombieFighter.strength}</p>
       <p>Agility: {zombieFighter.agility}</p>
       <TeamButton
-        isTeamMember={team.find(
-          (teamMember) => teamMember.id === zombieFighter.id
-        )}
+        isTeamMember={isZombieFighterInTeam(zombieFighter, team)}
         handleAddFighter={() => handleAddFighter(zombieFighter)}
         handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
         isMoneyEnough={money - zombieFighter.price < 0}
       />
     </li>
+  );
+}
+
+function isZombieFighterInTeam(zombieFighter, team) {
+  return (
+    team.find((teamMember) => teamMember.id === zombieFighter.id) !== undefined
   );
 }
 
@@ -169,21 +173,44 @@ const App = () => {
       </section>
       <section>
         <h2>Team</h2>
-        {team.length === 0 ? <p>Pick some team members!</p> : null}
+        {team.length === 0 ? (
+          <p>Pick some team members!</p>
+        ) : (
+          <ul>
+            {zombieFighters
+              .filter((zombieFighter) =>
+                isZombieFighterInTeam(zombieFighter, team)
+              )
+              .map((zombieFighter) => (
+                <ZombieFighter
+                  key={zombieFighter.id}
+                  handleAddFighter={handleAddFighter}
+                  handleRemoveFighter={handleRemoveFighter}
+                  zombieFighter={zombieFighter}
+                  team={team}
+                  money={money}
+                />
+              ))}
+          </ul>
+        )}
       </section>
       <section>
         <h2>Fighters</h2>
         <ul>
-          {zombieFighters.map((zombieFighter) => (
-            <ZombieFighter
-              key={zombieFighter.id}
-              handleAddFighter={handleRemoveFighter}
-              handleRemoveFighter={handleRemoveFighter}
-              zombieFighter={zombieFighter}
-              team={team}
-              money={money}
-            />
-          ))}
+          {zombieFighters
+            .filter(
+              (zombieFighter) => !isZombieFighterInTeam(zombieFighter, team)
+            )
+            .map((zombieFighter) => (
+              <ZombieFighter
+                key={zombieFighter.id}
+                handleAddFighter={handleAddFighter}
+                handleRemoveFighter={handleRemoveFighter}
+                zombieFighter={zombieFighter}
+                team={team}
+                money={money}
+              />
+            ))}
         </ul>
       </section>
     </>
