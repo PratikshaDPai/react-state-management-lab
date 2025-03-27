@@ -2,6 +2,14 @@
 
 import { useState } from "react";
 
+function TeamButton({ isTeamMember, handleAddFighter, handleRemoveFighter }) {
+  if (isTeamMember) {
+    return <button onClick={handleRemoveFighter}>Remove</button>;
+  } else {
+    return <button onClick={handleAddFighter}>Add</button>;
+  }
+}
+
 const App = () => {
   const [team, setTeam] = useState([]);
   const [money, setMoney] = useState(100);
@@ -88,12 +96,31 @@ const App = () => {
     },
   ]);
 
+  function handleAddFighter(fighter) {
+    // Add a new fighter without modifying the old team array
+    // Create a new copy and set that to the team variable
+    const newTeam = [...team];
+    newTeam.push(fighter);
+    setTeam(newTeam);
+  }
+
+  function handleRemoveFighter(fighter) {
+    setTeam(team.filter((teamMate) => teamMate.id !== fighter.id));
+  }
+
   return (
     <ul>
       {zombieFighters.map((zombieFighter) => (
         <li key={zombieFighter.id}>
           <img src={zombieFighter.img} />
           {zombieFighter.name} ${zombieFighter.price}
+          <TeamButton
+            isTeamMember={team.find(
+              (teamMember) => teamMember.id === zombieFighter.id
+            )}
+            handleAddFighter={() => handleAddFighter(zombieFighter)}
+            handleRemoveFighter={() => handleRemoveFighter(zombieFighter)}
+          />
         </li>
       ))}
     </ul>
